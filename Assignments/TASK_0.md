@@ -165,6 +165,8 @@ std::deque (double-ended queue) is an indexed sequence container that allows fas
 1) Déterminez à quel endroit du code sont définies les vitesses maximales et accélération de chaque avion.
 Le Concorde est censé pouvoir voler plus vite que les autres avions.
 Modifiez le programme pour tenir compte de cela.
+`Les vitesses maximales et accélération de chaque avion sont définies dans la class AircraftType`
+`aircraft_types[2] = new AircraftType { .02f, .07f, .05f, MediaPath { "concorde_af.png" } };`
 
 2) Identifiez quelle variable contrôle le framerate de la simulation.
 Ajoutez deux nouveaux inputs au programme permettant d'augmenter ou de diminuer cette valeur.
