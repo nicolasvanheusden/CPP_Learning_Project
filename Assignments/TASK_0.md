@@ -176,6 +176,7 @@ Ajoutez une nouvelle fonctionnalité au programme pour mettre le programme en pa
 
 
 3) Identifiez quelle variable contrôle le temps de débarquement des avions et doublez-le.
+`constexpr unsigned int SERVICE_CYCLES = 40u;`
 
 4) Lorsqu'un avion a décollé, il réattérit peu de temps après.
 Faites en sorte qu'à la place, il soit retiré du programme.\
