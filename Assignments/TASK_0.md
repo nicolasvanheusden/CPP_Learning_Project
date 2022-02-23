@@ -185,6 +185,10 @@ A quel endroit pouvez-vous savoir que l'avion doit être supprimé ?\
 Pourquoi n'est-il pas sûr de procéder au retrait de l'avion dans cette fonction ?
 A quel endroit de la callstack pourriez-vous le faire à la place ?\
 Que devez-vous modifier pour transmettre l'information de la première à la seconde fonction ?
+-- l'avion doit être supprimé quand il n'a plus de waypoint et qu'il a déjà atteri.
+Il n'est pas sûr de procéder au retrait de l'avion dans cette fonction car la fonction move est appelée via un iterator sur le unordered_set move_queue. Quand on va supprimer un élément, il se peut qu'on saute un élément.
+Il faudrait donc transmettre l'information à la méthode timer et retirer les avions en dehors de l'iterator.
+
 
 5) Lorsqu'un objet de type `Displayable` est créé, il faut ajouter celui-ci manuellement dans la liste des objets à afficher.
 Il faut également penser à le supprimer de cette liste avant de le détruire.

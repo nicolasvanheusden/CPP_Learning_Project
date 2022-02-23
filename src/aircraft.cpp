@@ -88,10 +88,14 @@ void Aircraft::add_waypoint(const Waypoint& wp, const bool front)
     }
 }
 
-void Aircraft::move()
+bool Aircraft::move()
 {
     if (waypoints.empty())
     {
+        if (is_finished)
+        {
+            return false;
+        }
         waypoints = control.get_instructions(*this);
     }
 
@@ -104,6 +108,7 @@ void Aircraft::move()
         // if we are close to our next waypoint, stike if off the list
         if (!waypoints.empty() && distance_to(waypoints.front()) < DISTANCE_THRESHOLD)
         {
+
             if (waypoints.front().is_at_terminal())
             {
                 arrive_at_terminal();
@@ -136,6 +141,7 @@ void Aircraft::move()
         // update the z-value of the displayable structure
         GL::Displayable::z = pos.x() + pos.y();
     }
+    return true;
 }
 
 void Aircraft::display() const
