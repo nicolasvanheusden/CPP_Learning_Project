@@ -6,28 +6,160 @@ Compilez et lancez le programme.
 
 Allez dans le fichier `tower_sim.cpp` et recherchez la fonction responsable de gérer les inputs du programme.
 Sur quelle touche faut-il appuyer pour ajouter un avion ?
+-- Il faut appuyer sur la touche c.
 Comment faire pour quitter le programme ?
+-- Pour quitter le programme on peut appuyer sur x ou q.
 A quoi sert la touche 'F' ?
+-- La touche F sert à mettre en plein écran mais ne fonctionne pas sur Mac.
 
 Ajoutez un avion à la simulation et attendez.
 Que est le comportement de l'avion ?
+-- L'avion atterri puis se déplace vers une zone cargo et re-décolle.
 Quelles informations s'affichent dans la console ?
+EY3409 is now landing...
+now servicing EY3409...
+done servicing EY3409
+EY3409 lift off
 
 Ajoutez maintenant quatre avions d'un coup dans la simulation.
 Que fait chacun des avions ?
+-- 3 d'entre-eux atterissent et un reste en survol autour de 
+l'aéroport en attente d'avoir une place disponible.
 
 ## B- Analyse du code
 
 Listez les classes du programme à la racine du dossier src/.
 Pour chacune d'entre elle, expliquez ce qu'elle représente et son rôle dans le programme.
+-- À la racine du dossier src/ retrouve les classes suivantes :
+    - AircraftType : représente le type d'un avion ainsi que ses caractéristiques.
+    - Aircraft : est la classe de l'avion qui va interagir avec le display.
+    - AirportType : est la classe qui contient les infos sur l'aéroport (ses pistes d'atterissage,etc..).
+    - Airport : est la classe qui gère l'aéroport, (réserver un terminal, etc..).
+    - Terminal : est la classe qui gère l'état d'un terminal.
+    - TowerSimulation : est la classe qui est 'le plateau du jeu'; la classe qui initialise le jeu.
+    - Tower : donne les instructions à un avion.
+    - Waypoint : indique si un avion est dans les air ou sur terre.
+    - Point3D : point avec 3 coordonées.
+    - Point2D : point avec 2 coordonées.
+    - Runway : représente une piste d'aéroport.
 
 Pour les classes `Tower`, `Aircaft`, `Airport` et `Terminal`, listez leurs fonctions-membre publiques et expliquez précisément à quoi elles servent.
 Réalisez ensuite un schéma présentant comment ces différentes classes intéragissent ensemble.
+-- Pour la classe `Tower` les fonctions membres sont les suivantes : 
+    ```
+        /** Fonction qui donne les instructions à l'avion pour qu'il rejoigne l'aéroport.
+        S'il est à porté de l'aéroport, on essaie de lui reserver une place,
+        et on le fait tourner en rond si on a pas de place.
+        S'il est dejà à l'aéroport, on lui trouve un moyen de re-décoller s'il a fini son service. */
+        WaypointQueue get_instructions(Aircraft& aircraft);
+    ```
+    
+    ```
+        /** 
+        Fonction qui assigne le debut d'un service pour un avion, une fois qu'il est arrivé à l'aéroport
+        */
+        void arrived_at_terminal(const Aircraft& aircraft);
+    ```
+-- Pour la classe `Aircraft` les fonctions membres sont les suivantes :
+    ```
+        /**
+            Getter sur le numéro de vol de l'avion
+        */
+        const std::string& get_flight_num() const { return flight_number; }
+    ```
+    ```
+        /**
+            Fonction qui calcul la distance entre la position de l'avion et un point en 3D.
+        */
+        float distance_to(const Point3D& p) const { return pos.distance_to(p); }
+    ```
+    ```
+        /** 
+            Fonction qui affiche un avion à l'écran
+        */ 
+        void display() const override;
+    ```
+    ```
+        /**
+            Fonction qui déplace un avion
+        */
+        void move() override;
+    ```
+-- Pour la classe `Airport` les fonctions membres sont les suivantes :
+
+    ```
+        // Getter sur Tower.
+        Tower& get_tower() { return tower; }
+    ```
+
+    ```
+        // Fonction qui dessine l'aéroport.
+        void display() const override { texture.draw(project_2D(pos), { 2.0f, 2.0f }); }
+    ```
+
+    ```
+        // augmente le niveau de progression d'un terminal.
+        void move() override
+        {
+            for (auto& t : terminals)
+            {
+                t.move();
+            }
+        }
+    ```
+
+-- Pour la classe `Terminal` les fonctions membres sont les suivantes :
+    ```
+        //Inidique si un terminal est actuellement utilisé par un avion.
+        bool in_use() const { return current_aircraft != nullptr; }
+    ```
+    ```
+        //Inidique si un terminal est en service
+        bool is_servicing() const { return service_progress < SERVICE_CYCLES; }
+    ```
+    ```
+        //Assigne a un avion ce terminal
+        void assign_craft(const Aircraft& aircraft) { current_aircraft = &aircraft; }
+    ```
+
+    ```
+        // Démarre le service d'un terminal
+        void start_service(const Aircraft& aircraft)
+        {
+            assert(aircraft.distance_to(pos) < DISTANCE_THRESHOLD);
+            std::cout << "now servicing " << aircraft.get_flight_num() << "...\n";
+            service_progress = 0;
+        }
+    ```
+    ```
+        // Finis le service d'un terminal
+        void finish_service()
+        {
+            if (!is_servicing())
+            {
+                std::cout << "done servicing " << current_aircraft->get_flight_num() << '\n';
+                current_aircraft = nullptr;
+            }
+        }
+    ```
+    ```
+        // Augmente la progression d'un service d'un terminal
+        void move() override
+        {
+            if (in_use() && is_servicing())
+            {
+                ++service_progress;
+            }
+        }
+    ```
 
 Quelles classes et fonctions sont impliquées dans la génération du chemin d'un avion ?
+-- La classe Tower avec la fonction get_instructions est impliquée dans la génération du chemin d'un avion.
+-- La classe Waypoint représente des points de contrôles auquel l'avion doit passer.
 Quel conteneur de la librairie standard a été choisi pour représenter le chemin ?
+`<std::dequeu>`
 Expliquez les intérêts de ce choix.
-
+std::deque (double-ended queue) is an indexed sequence container that allows fast insertion and deletion at both its beginning and its end. In addition, insertion and deletion at either end of a deque never invalidates pointers or references to the rest of the elements. 
 ## C- Bidouillons !
 
 1) Déterminez à quel endroit du code sont définies les vitesses maximales et accélération de chaque avion.
