@@ -172,6 +172,8 @@ Modifiez le programme pour tenir compte de cela.
 Ajoutez deux nouveaux inputs au programme permettant d'augmenter ou de diminuer cette valeur.
 Essayez maintenant de mettre en pause le programme en manipulant ce framerate. Que se passe-t-il ?\
 Ajoutez une nouvelle fonctionnalité au programme pour mettre le programme en pause, et qui ne passe pas par le framerate.
+`constexpr unsigned int DEFAULT_TICKS_PER_SEC = 16u;`
+
 
 3) Identifiez quelle variable contrôle le temps de débarquement des avions et doublez-le.
 
