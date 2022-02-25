@@ -206,8 +206,13 @@ Modifiez le code afin d'utiliser un conteneur STL plus adapté. Normalement, à 
 
 1) Comment a-t-on fait pour que seule la classe `Tower` puisse réserver un terminal de l'aéroport ?
 
+-- On a un attribut privé reserved_terminal.
+
 2) En regardant le contenu de la fonction `void Aircraft::turn(Point3D direction)`, pourquoi selon-vous ne sommes-nous pas passer par une réference ?
 Pensez-vous qu'il soit possible d'éviter la copie du `Point3D` passé en paramètre ?
+
+-- Nous ne somme pas passé par une référence car cap_length modifie l'objet sur lequel il est appellé et le retourne.
+
 
 ## E- Bonus
 
