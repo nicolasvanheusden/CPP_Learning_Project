@@ -87,6 +87,7 @@ void timer(const int step)
         for (auto& item : to_remove)
         {
             move_queue.erase(item);
+            delete item;
         }
     }
     glutPostRedisplay();

@@ -7,6 +7,10 @@ namespace GL {
 // a displayable object can be displayed and has a z-coordinate indicating who
 // is displayed before whom ;]
 
+class Displayable;
+
+inline std::vector<const Displayable*> display_queue;
+
 class Displayable
 {
 protected:
@@ -14,7 +18,14 @@ protected:
 
 public:
     Displayable(const float z_) : z { z_ } {}
-    virtual ~Displayable() {}
+    virtual ~Displayable()
+    {
+        const auto it = std::find(GL::display_queue.begin(), GL::display_queue.end(), this);
+        if (it != GL::display_queue.end())
+        {
+            GL::display_queue.erase(it);
+        }
+    }
 
     virtual void display() const = 0;
 
@@ -30,7 +41,5 @@ struct disp_z_cmp
         return (az == bz) ? (a > b) : (az > bz);
     }
 };
-
-inline std::vector<const Displayable*> display_queue;
 
 } // namespace GL

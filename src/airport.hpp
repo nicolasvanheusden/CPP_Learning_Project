@@ -60,6 +60,8 @@ public:
         tower { *this }
     {}
 
+    ~Airport() {}
+
     Tower& get_tower() { return tower; }
 
     void display() const override { texture.draw(project_2D(pos), { 2.0f, 2.0f }); }
