@@ -2,35 +2,37 @@
 
 #include "aircraft.hpp"
 
+#include <algorithm>
+#include <memory>
+#include <utility>
 #include <vector>
 
 class AircraftManager : public GL::DynamicObject
 {
 
 private:
-    std::unordered_set<Aircraft*> aircrafts = {};
+    std::vector<std::unique_ptr<Aircraft>> aircrafts;
 
 public:
     AircraftManager() {}
 
     void move() override
     {
-        std::unordered_set<Aircraft*> to_remove;
 
-        for (auto& aircraft : aircrafts)
+        for (auto aircraft_it = aircrafts.begin(); aircraft_it != aircrafts.end();)
         {
-            if (!aircraft->move())
+            // On doit déréférencer 2x pour obtenir une référence sur l'Aircraft : l'it et le pointeur
+            auto& aircraft = **aircraft_it;
+            if (aircraft.move())
             {
-                to_remove.emplace(aircraft);
+                ++aircraft_it;
             }
-        }
-
-        for (auto& aircraft : to_remove)
-        {
-            aircrafts.erase(aircraft);
-            delete aircraft;
+            else
+            {
+                aircraft_it = aircrafts.erase(aircraft_it);
+            }
         }
     }
 
-    void add_aircraft(Aircraft* aircraft) { aircrafts.emplace(aircraft); }
+    void add_aircraft(std::unique_ptr<Aircraft>& aircraft) { aircrafts.emplace_back(std::move(aircraft)); }
 };

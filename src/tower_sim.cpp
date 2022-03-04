@@ -19,6 +19,7 @@ TowerSimulation::TowerSimulation(int argc, char** argv) :
     help { (argc > 1) && (std::string { argv[1] } == "--help"s || std::string { argv[1] } == "-h"s) },
     initializer { ContextInitializer(argc, argv) },
     factory { new AircraftFactory() }
+
 {
     create_keystrokes();
 }
@@ -69,8 +70,7 @@ void TowerSimulation::init_airport()
 
 void TowerSimulation::init_manager()
 {
-    manager = new AircraftManager();
-
+    manager = new AircraftManager {};
     GL::move_queue.emplace(manager);
 }
 

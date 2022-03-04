@@ -4,6 +4,7 @@
 #include "aircraft_types.hpp"
 #include "airport.hpp"
 
+#include <memory>
 #include <string.h>
 #include <unordered_set>
 
@@ -48,7 +49,8 @@ public:
         const Point3D start     = Point3D { std::sin(angle), std::cos(angle), 0 } * 3 + Point3D { 0, 0, 2 };
         const Point3D direction = (-start).normalize();
 
-        Aircraft* aircraft = new Aircraft { type, flight_number, start, direction, airport->get_tower() };
+        std::unique_ptr<Aircraft> aircraft =
+            std::make_unique<Aircraft>(type, flight_number, start, direction, airport->get_tower());
         manager->add_aircraft(aircraft);
 
         flight_numbers_set.emplace(flight_number);
