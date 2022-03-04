@@ -75,19 +75,9 @@ void timer(const int step)
 {
     if (!is_pause)
     {
-        std::unordered_set<DynamicObject*> to_remove;
         for (auto& item : move_queue)
         {
-            if (!item->move())
-            {
-                to_remove.emplace(item);
-            }
-        }
-
-        for (auto& item : to_remove)
-        {
-            move_queue.erase(item);
-            delete item;
+            item->move();
         }
     }
     glutPostRedisplay();

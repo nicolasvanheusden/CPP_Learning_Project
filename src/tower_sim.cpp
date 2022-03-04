@@ -2,6 +2,7 @@
 
 #include "GL/opengl_interface.hpp"
 #include "aircraft.hpp"
+#include "aircraft_manager.hpp"
 #include "airport.hpp"
 #include "config.hpp"
 #include "img/image.hpp"
@@ -40,7 +41,7 @@ void TowerSimulation::create_aircraft(const AircraftType& type) const
     const Point3D direction = (-start).normalize();
 
     Aircraft* aircraft = new Aircraft { type, flight_number, start, direction, airport->get_tower() };
-    GL::move_queue.emplace(aircraft);
+    manager->add_aircraft(aircraft);
 }
 
 void TowerSimulation::create_random_aircraft() const
@@ -82,6 +83,13 @@ void TowerSimulation::init_airport()
     GL::move_queue.emplace(airport);
 }
 
+void TowerSimulation::init_manager()
+{
+    manager = new AircraftManager();
+
+    GL::move_queue.emplace(manager);
+}
+
 void TowerSimulation::launch()
 {
     if (help)
@@ -92,6 +100,7 @@ void TowerSimulation::launch()
 
     init_airport();
     init_aircraft_types();
+    init_manager();
 
     GL::loop();
 }

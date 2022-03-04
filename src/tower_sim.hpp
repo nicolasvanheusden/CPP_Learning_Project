@@ -2,12 +2,14 @@
 
 class Airport;
 struct AircraftType;
+class AircraftManager;
 
 class TowerSimulation
 {
 private:
-    bool help        = false;
-    Airport* airport = nullptr;
+    bool help                = false;
+    Airport* airport         = nullptr;
+    AircraftManager* manager = nullptr;
 
     TowerSimulation(const TowerSimulation&) = delete;
     TowerSimulation& operator=(const TowerSimulation&) = delete;
@@ -19,6 +21,7 @@ private:
     void display_help() const;
 
     void init_airport();
+    void init_manager();
 
 public:
     TowerSimulation(int argc, char** argv);
