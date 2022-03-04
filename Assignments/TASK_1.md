@@ -32,10 +32,20 @@ Il serait donc bon de savoir qui est censé détruire les avions du programme, a
 
 Répondez aux questions suivantes :
 1. Qui est responsable de détruire les avions du programme ? (si vous ne trouvez pas, faites/continuez la question 4 dans TASK_0)
--- CELUI QUI EST REPONSABLE DE DÉTRUIRE LES AVIONS DU PROGRAMME EST LA CLASSE DISPLAYABLE.
+
+-- La fonction timer dans OpenGLInterface est responsable de la destruction d'un avion avec l'instruction delete item. Item qui est un DynamicObject dont chaque Aircraft hérite.
+
 2. Quelles autres structures contiennent une référence sur un avion au moment où il doit être détruit ?
+
+-- std::unordered_map<const Aircraft*, size_t>; & inline std::vector<const Displayable*> display_queue;
+
 3. Comment fait-on pour supprimer la référence sur un avion qui va être détruit dans ces structures ?
+
+-- on utilise le destructeur de la classe Displayable. 
+
 4. Pourquoi n'est-il pas très judicieux d'essayer d'appliquer la même chose pour votre `AircraftManager` ?
+
+-- Nos avions devraient hérités d'AicraftManager et ça n'a pas de sens vu que notre classe les stockera dans une sorte de liste.
 
 Pour simplifier le problème, vous allez déplacer l'ownership des avions dans la classe `AircraftManager`.
 Vous allez également faire en sorte que ce soit cette classe qui s'occupe de déplacer les avions, et non plus la fonction `timer`.
