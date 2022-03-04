@@ -17,7 +17,7 @@ protected:
     float z = 0;
 
 public:
-    Displayable(const float z_) : z { z_ } {}
+    Displayable(const float z_) : z { z_ } { GL::display_queue.emplace_back(this); }
     virtual ~Displayable()
     {
         const auto it = std::find(GL::display_queue.begin(), GL::display_queue.end(), this);

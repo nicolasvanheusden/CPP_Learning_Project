@@ -7,6 +7,8 @@ Chaque avion créé est ensuite placé dans les files `GL::display_queue` et `GL
 
 Si à un moment quelconque du programme, vous souhaitiez accéder à l'avion ayant le numéro de vol "AF1250", que devriez-vous faire ?
 
+On doit parcourir les 2 car l'un est un vector et l'autre un set donc l'élément n'est pas ranger au même endroit.
+
 ---
 
 ## Objectif 1 - Référencement des avions
@@ -30,6 +32,7 @@ Il serait donc bon de savoir qui est censé détruire les avions du programme, a
 
 Répondez aux questions suivantes :
 1. Qui est responsable de détruire les avions du programme ? (si vous ne trouvez pas, faites/continuez la question 4 dans TASK_0)
+-- CELUI QUI EST REPONSABLE DE DÉTRUIRE LES AVIONS DU PROGRAMME EST LA CLASSE DISPLAYABLE.
 2. Quelles autres structures contiennent une référence sur un avion au moment où il doit être détruit ?
 3. Comment fait-on pour supprimer la référence sur un avion qui va être détruit dans ces structures ?
 4. Pourquoi n'est-il pas très judicieux d'essayer d'appliquer la même chose pour votre `AircraftManager` ?
