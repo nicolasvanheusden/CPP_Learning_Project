@@ -64,6 +64,7 @@ public:
 
     const std::string& get_flight_num() const { return flight_number; }
     float distance_to(const Point3D& p) const { return pos.distance_to(p); }
+    int get_remaining_fuel() const { return fuel; }
     bool has_terminal() const;
     bool is_circling() const;
 

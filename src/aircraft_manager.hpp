@@ -16,6 +16,30 @@ private:
 public:
     AircraftManager() {}
 
+    void sort_aircrafts()
+    {
+        std::sort(aircrafts.begin(), aircrafts.end(),
+                  [](std::unique_ptr<Aircraft>& first, std::unique_ptr<Aircraft>& second)
+                  {
+                      if (first->has_terminal() && second->has_terminal())
+                      {
+                          return first->get_remaining_fuel() < second->get_remaining_fuel();
+                      }
+
+                      if (first->has_terminal())
+                      {
+                          return true;
+                      }
+
+                      if (second->has_terminal())
+                      {
+                          return false;
+                      }
+
+                      return first->get_remaining_fuel() < second->get_remaining_fuel();
+                  });
+    }
+
     void move() override
     {
 
