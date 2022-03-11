@@ -86,6 +86,8 @@ void TowerSimulation::init_manager()
 
 void TowerSimulation::launch()
 {
+    srand(time(NULL));
+
     if (help)
     {
         display_help();

@@ -7,6 +7,7 @@
 #include "tower.hpp"
 #include "waypoint.hpp"
 
+#include <cstdlib>
 #include <string>
 #include <string_view>
 
@@ -21,6 +22,7 @@ private:
     bool landing_gear_deployed = false; // is the landing gear deployed?
     bool is_at_terminal        = false;
     bool is_finished           = false;
+    int fuel;
 
     // turn the aircraft to arrive at the next waypoint
     // try to facilitate reaching the waypoint after the next by facing the
@@ -53,7 +55,8 @@ public:
         flight_number { flight_number_ },
         pos { pos_ },
         speed { speed_ },
-        control { control_ }
+        control { control_ },
+        fuel { rand() % 2851 + 150 }
     {
         speed.cap_length(max_speed());
     }
