@@ -36,6 +36,8 @@ void TowerSimulation::create_aircraft() const
 
 void TowerSimulation::create_keystrokes() const
 {
+    auto airlines = AircraftFactory().get_airlines();
+
     GL::keystrokes.emplace('x', []() { GL::exit_loop(); });
     GL::keystrokes.emplace('q', []() { GL::exit_loop(); });
     GL::keystrokes.emplace('c', [this]() { create_aircraft(); });
@@ -44,7 +46,15 @@ void TowerSimulation::create_keystrokes() const
     GL::keystrokes.emplace('f', []() { GL::toggle_fullscreen(); });
     GL::keystrokes.emplace('i', []() { GL::increase_ticks(); });
     GL::keystrokes.emplace('d', []() { GL::decrease_ticks(); });
-    GL::keystrokes.emplace('p', []() { GL::update_pause(); });
+
+    int k = 0;
+    for (std::string airline : airlines)
+    {
+        GL::keystrokes.emplace(
+            k + '0', [airline, this]()
+            { std::cout << airline << " : " << manager->number_of_aircraft_from(airline) << std::endl; });
+        k++;
+    }
 }
 
 void TowerSimulation::display_help() const

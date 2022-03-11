@@ -34,6 +34,13 @@ private:
 public:
     AircraftFactory() { init_aircraft_types(); }
 
+    std::vector<std::string> get_airlines() const
+    {
+        std::vector<std::string> airlines_vector;
+        airlines_vector.assign(airlines, airlines + 8);
+        return airlines_vector;
+    }
+
     void create_aircraft(const AircraftType& type, AircraftManager* manager, Airport* airport)
     {
         assert(airport); // make sure the airport is initialized before creating aircraft
