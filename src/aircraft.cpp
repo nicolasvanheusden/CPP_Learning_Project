@@ -158,3 +158,8 @@ bool Aircraft::has_terminal() const
 {
     return !waypoints.empty() && waypoints.back().type == wp_terminal;
 }
+
+bool Aircraft::is_circling() const
+{
+    return !is_finished && !has_terminal();
+}
