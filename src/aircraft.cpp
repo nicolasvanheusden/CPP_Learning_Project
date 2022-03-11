@@ -136,6 +136,14 @@ bool Aircraft::move()
             {
                 pos.z() -= SINK_FACTOR * (SPEED_THRESHOLD - speed_len);
             }
+            if (is_circling())
+            {
+                auto pathToTerminal = control.reserve_terminal(*this);
+                if (!pathToTerminal.empty())
+                {
+                    waypoints.swap(pathToTerminal);
+                }
+            }
         }
         // update the z-value of the displayable structure
         GL::Displayable::z = pos.x() + pos.y();
