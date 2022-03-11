@@ -30,6 +30,9 @@ remplacez le code des fonctions suivantes en utilisant des fonctions de `<algori
 2. `Point3D::operator+=(const Point3D& other)` et `Point3D::operator-=(const Point3D& other)`
 3. `Point3D::length() const`
 
+
+
+
 ---
 
 ## Objectif 2 - Rupture de kérosène

@@ -5,6 +5,7 @@
 #include <cassert>
 #include <cmath>
 #include <iostream>
+#include <numeric>
 
 struct Point2D
 {
@@ -64,41 +65,38 @@ struct Point2D
 
 struct Point3D
 {
-    float values[3] {};
+    std::array<float, 3> values;
 
     Point3D() {}
     Point3D(float x, float y, float z) : values { x, y, z } {}
 
-    float& x() { return values[0]; }
-    float x() const { return values[0]; }
+    float& x() { return values.at(0); }
+    float x() const { return values.at(0); }
 
-    float& y() { return values[1]; }
-    float y() const { return values[1]; }
+    float& y() { return values.at(1); }
+    float y() const { return values.at(1); }
 
-    float& z() { return values[2]; }
-    float z() const { return values[2]; }
+    float& z() { return values.at(2); }
+    float z() const { return values.at(2); }
 
     Point3D& operator+=(const Point3D& other)
     {
-        x() += other.x();
-        y() += other.y();
-        z() += other.z();
+        std::transform(values.begin(), values.end(), other.values.begin(), values.begin(),
+                       [](float coord, float other_coord) { return coord + other_coord; });
         return *this;
     }
 
     Point3D& operator-=(const Point3D& other)
     {
-        x() -= other.x();
-        y() -= other.y();
-        z() -= other.z();
+        std::transform(values.begin(), values.end(), other.values.begin(), values.begin(),
+                       [](float coord, float other_coord) { return coord - other_coord; });
         return *this;
     }
 
     Point3D& operator*=(const float scalar)
     {
-        x() *= scalar;
-        y() *= scalar;
-        z() *= scalar;
+        std::transform(values.begin(), values.end(), values.begin(),
+                       [scalar](float coord) { return coord * scalar; });
         return *this;
     }
 
@@ -125,7 +123,11 @@ struct Point3D
 
     Point3D operator-() const { return Point3D { -x(), -y(), -z() }; }
 
-    float length() const { return std::sqrt(x() * x() + y() * y() + z() * z()); }
+    float length() const
+    {
+        return std::sqrt(std::accumulate(values.begin(), values.end(), 0.f,
+                                         [](float acc, float coord) { return acc + coord * coord; }));
+    }
 
     float distance_to(const Point3D& other) const { return (*this - other).length(); }
 
