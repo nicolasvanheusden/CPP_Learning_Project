@@ -71,6 +71,7 @@ public:
 
     void display() const override;
     bool move();
+    bool get_is_at_terminal() const { return is_at_terminal; }
 
     friend class Tower;
 };

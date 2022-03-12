@@ -57,4 +57,17 @@ public:
                         [flight_number](const std::unique_ptr<Aircraft>& aircraft)
                         { return aircraft->get_flight_num().substr(0, 2) == flight_number; });
     }
+
+    int AircraftManager::get_required_fuel() const
+    {
+        return std::accumulate(aircrafts.begin(), aircrafts.end(), 0,
+                               [](unsigned int acc, const std::unique_ptr<Aircraft>& aircraft)
+                               {
+                                   if (aircraft->is_low_on_fuel() && aircraft->get_is_at_terminal())
+                                   {
+                                       return acc + (3000 - aircraft->get_remaining_fuel());
+                                   }
+                                   return acc;
+                               });
+    }
 };
