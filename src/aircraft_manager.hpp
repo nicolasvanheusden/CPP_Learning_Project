@@ -58,7 +58,7 @@ public:
                         { return aircraft->get_flight_num().substr(0, 2) == flight_number; });
     }
 
-    int AircraftManager::get_required_fuel() const
+    int get_required_fuel() const
     {
         return std::accumulate(aircrafts.begin(), aircrafts.end(), 0,
                                [](unsigned int acc, const std::unique_ptr<Aircraft>& aircraft)
