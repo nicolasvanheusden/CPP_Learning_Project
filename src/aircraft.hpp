@@ -72,6 +72,7 @@ public:
     void display() const override;
     bool move();
     bool get_is_at_terminal() const { return is_at_terminal; }
+    void refill(int& fuel_stock);
 
     friend class Tower;
 };
