@@ -111,6 +111,7 @@ bool Aircraft::move()
 
             if (waypoints.front().is_at_terminal())
             {
+                std::cout << flight_number << " arrived at terminal prepare to serve " << std::endl;
                 arrive_at_terminal();
             }
             else
@@ -179,12 +180,18 @@ bool Aircraft::is_low_on_fuel() const
 
 void Aircraft::refill(int& fuel_stock)
 {
-    std::cout << flight_number << " is reffiling ";
-    int reserve = fuel;
-    while (fuel < 3000 && fuel_stock > 0)
+    if (is_low_on_fuel())
     {
-        fuel++;
-        fuel_stock--;
+        std::cout << flight_number << "current fuel remaining is " << fuel << std::endl;
+        std::cout << flight_number << " is reffiling | ";
+        int fuel_to_add      = 3000 - fuel;
+        int fuel_truly_added = 0;
+        while (fuel < 3000 && fuel_stock > 0 && fuel_truly_added < fuel_to_add)
+        {
+            fuel_truly_added++;
+            fuel++;
+            fuel_stock--;
+        }
+        std::cout << "refilled of : " << fuel_truly_added << std::endl;
     }
-    std::cout << "refilled of : " << (fuel - reserve) << std::endl;
 }
