@@ -131,6 +131,18 @@ bool Aircraft::move()
         }
         else
         {
+            // update the z-value of the displayable structure
+            GL::Displayable::z = pos.x() + pos.y();
+            fuel--;
+            if (fuel == 0)
+            {
+                if (has_terminal())
+                {
+                    control.erase_aircraft_if_crashed(*this);
+                }
+                std::cout << flight_number << " is going to crash !" << std::endl;
+                return false;
+            }
             // if we are in the air, but too slow, then we will sink!
             const float speed_len = speed.length();
             if (speed_len < SPEED_THRESHOLD)
@@ -139,20 +151,12 @@ bool Aircraft::move()
             }
             if (is_circling())
             {
-                auto pathToTerminal = control.reserve_terminal(*this);
-                if (!pathToTerminal.empty())
+                auto path_to_terminal = control.reserve_terminal(*this);
+                if (!path_to_terminal.empty())
                 {
-                    waypoints.swap(pathToTerminal);
+                    waypoints.swap(path_to_terminal);
                 }
             }
-        }
-        // update the z-value of the displayable structure
-        GL::Displayable::z = pos.x() + pos.y();
-        fuel--;
-        if (fuel == 0)
-        {
-            std::cout << flight_number << " is going to crash !" << std::endl;
-            return false;
         }
     }
     return true;
