@@ -44,7 +44,16 @@ public:
     {
 
         aircrafts.erase(std::remove_if(aircrafts.begin(), aircrafts.end(),
-                                       [](std::unique_ptr<Aircraft>& aircraft) { return !aircraft->move(); }),
+                                       [](std::unique_ptr<Aircraft>& aircraft)
+                                       {
+                                           try
+                                           {
+                                               return !aircraft->move();
+                                           } catch (const AircraftCrash& crash)
+                                           {
+                                               return true;
+                                           }
+                                       }),
                         aircrafts.end());
     }
 
