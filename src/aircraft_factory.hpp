@@ -45,6 +45,7 @@ public:
     {
         assert(airport); // make sure the airport is initialized before creating aircraft
         assert(manager); // make sure the manager is initialized before adding aircraft
+        assert(&type);
 
         std::string fn = airlines[std::rand() % 8] + std::to_string(1000 + (rand() % 9000));
         while (exists(fn))

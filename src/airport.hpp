@@ -98,7 +98,11 @@ public:
         }
     }
 
-    void set_aircraft_manager(AircraftManager* aircraft_manager) { manager = aircraft_manager; }
+    void set_aircraft_manager(AircraftManager* aircraft_manager)
+    {
+        assert(manager == nullptr);
+        manager = aircraft_manager;
+    }
 
     friend class Tower;
     friend class AircraftManager;

@@ -2,6 +2,7 @@
 
 #include "GL/opengl_interface.hpp"
 
+#include <cassert>
 #include <cmath>
 
 void Aircraft::turn_to_waypoint()
@@ -184,6 +185,7 @@ bool Aircraft::is_low_on_fuel() const
 
 void Aircraft::refill(int& fuel_stock)
 {
+    assert(&fuel_stock);
     if (is_low_on_fuel())
     {
         std::cout << flight_number << "current fuel remaining is " << fuel << std::endl;
