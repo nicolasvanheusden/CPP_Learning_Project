@@ -12,6 +12,7 @@ class AircraftManager : public GL::DynamicObject
 
 private:
     std::vector<std::unique_ptr<Aircraft>> aircrafts;
+    int number_of_aircrafts_crashed = 0;
 
 public:
     AircraftManager() {}
@@ -44,13 +45,14 @@ public:
     {
 
         aircrafts.erase(std::remove_if(aircrafts.begin(), aircrafts.end(),
-                                       [](std::unique_ptr<Aircraft>& aircraft)
+                                       [this](std::unique_ptr<Aircraft>& aircraft)
                                        {
                                            try
                                            {
                                                return !aircraft->move();
                                            } catch (const AircraftCrash& crash)
                                            {
+                                               number_of_aircrafts_crashed++;
                                                return true;
                                            }
                                        }),
@@ -79,4 +81,6 @@ public:
                                    return acc;
                                });
     }
+
+    int get_number_of_aircrafts_crashed() const { return number_of_aircrafts_crashed; }
 };
