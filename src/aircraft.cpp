@@ -141,7 +141,7 @@ bool Aircraft::move()
                     control.erase_aircraft_if_crashed(*this);
                 }
                 std::cout << flight_number << " is going to crash !" << std::endl;
-                return false;
+                throw AircraftCrash { "crash" };
             }
             // if we are in the air, but too slow, then we will sink!
             const float speed_len = speed.length();
