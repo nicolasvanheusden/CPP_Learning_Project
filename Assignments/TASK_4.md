@@ -63,6 +63,9 @@ Vérifiez que votre programme compile et fonctionne comme avant.
 Que se passe-t-il ?
 Comment pourriez-vous expliquer que cette erreur ne se produise que maintenant ?
 
+Le programme ne compile pas car point 2D a une dimension de 2 et donc n'attend que 2 paramètres.
+Cette erreur ne se produit que maintenant car avant on ne la faisait pas x).
+
 5. Que se passe-t-il maintenant si vous essayez d'instancier un `Point3D` avec 2 arguments ?
 Utilisez un `static_assert` afin de vous assurez que personne ne puisse initialiser un `Point3D` avec seulement deux éléments.
 Faites en de même dans les fonctions `y()` et `z()`, pour vérifier que l'on ne puisse pas les appeler sur des `Point` qui n'ont pas la dimension minimale requise.

@@ -19,17 +19,19 @@ void test_generic_points()
     auto p9 = p7 + p8;
     p7 += p9;
     p7 *= 3.0;
+
+    Point<2, int> p10 = { 1, 4, 5 };
 }
 
-// int main(void)
-// {
-//     test_generic_points();
-// }
-
-int main(int argc, char** argv)
+int main(void)
 {
-    TowerSimulation simulation { argc, argv };
-    simulation.launch();
-
-    return 0;
+    test_generic_points();
 }
+
+// int main(int argc, char** argv)
+// {
+//     TowerSimulation simulation { argc, argv };
+//     simulation.launch();
+
+//     return 0;
+// }
