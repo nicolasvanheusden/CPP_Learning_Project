@@ -186,7 +186,7 @@ template <int dimension, typename type> struct Point
         return *this;
     }
 
-    Point<dimension, type>& operator*=(const float scalar)
+    Point<dimension, type>& operator*=(const type scalar)
     {
         std::transform(values.begin(), values.end(), values.begin(),
                        [scalar](type coord) { return coord * scalar; });
@@ -207,7 +207,7 @@ template <int dimension, typename type> struct Point
         return result;
     }
 
-    Point<dimension, type> operator*(const float scalar) const
+    Point<dimension, type> operator*(const type scalar) const
     {
         Point<dimension, type> result = *this;
         result *= scalar;
@@ -224,7 +224,7 @@ template <int dimension, typename type> struct Point
 
     float distance_to(const Point<dimension, type>& other) const { return (*this - other).length(); }
 
-    Point<dimension, type>& normalize(const float target_len = 1.0f)
+    Point<dimension, type>& normalize(const type target_len = 1.0f)
     {
         const float current_len = length();
         if (current_len == 0)
@@ -236,7 +236,7 @@ template <int dimension, typename type> struct Point
         return *this;
     }
 
-    Point<dimension, type>& cap_length(const float max_len)
+    Point<dimension, type>& cap_length(const type max_len)
     {
         assert(max_len > 0);
 
