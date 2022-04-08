@@ -164,3 +164,88 @@ inline Point2D project_2D(const Point3D& p)
 {
     return { .5f * p.x() - .5f * p.y(), .5f * p.x() + .5f * p.y() + p.z() };
 }
+
+template <int dimension, typename type> struct Point
+{
+
+    Point() = default;
+
+    std::array<type, dimension> values = {};
+
+    Point<dimension, type>& operator+=(const Point<dimension, type>& other)
+    {
+        std::transform(values.begin(), values.end(), other.values.begin(), values.begin(),
+                       [](type coord, type other_coord) { return coord + other_coord; });
+        return *this;
+    }
+
+    Point<dimension, type>& operator-=(const Point<dimension, type>& other)
+    {
+        std::transform(values.begin(), values.end(), other.values.begin(), values.begin(),
+                       [](type coord, type other_coord) { return coord - other_coord; });
+        return *this;
+    }
+
+    Point<dimension, type>& operator*=(const float scalar)
+    {
+        std::transform(values.begin(), values.end(), values.begin(),
+                       [scalar](type coord) { return coord * scalar; });
+        return *this;
+    }
+
+    Point<dimension, type> operator+(const Point<dimension, type>& other) const
+    {
+        Point<dimension, type> result = *this;
+        result += other;
+        return result;
+    }
+
+    Point<dimension, type> operator-(const Point<dimension, type>& other) const
+    {
+        Point<dimension, type> result = *this;
+        result -= other;
+        return result;
+    }
+
+    Point<dimension, type> operator*(const float scalar) const
+    {
+        Point<dimension, type> result = *this;
+        result *= scalar;
+        return result;
+    }
+
+    // Point<dimension, type> operator-() const { return Point<dimension, type> { -x(), -y(), -z() }; }
+
+    float length() const
+    {
+        return std::sqrt(std::accumulate(values.begin(), values.end(), 0.f,
+                                         [](float acc, type coord) { return acc + coord * coord; }));
+    }
+
+    float distance_to(const Point<dimension, type>& other) const { return (*this - other).length(); }
+
+    Point<dimension, type>& normalize(const float target_len = 1.0f)
+    {
+        const float current_len = length();
+        if (current_len == 0)
+        {
+            throw std::logic_error("cannot normalize vector of length 0");
+        }
+
+        *this *= (target_len / current_len);
+        return *this;
+    }
+
+    Point<dimension, type>& cap_length(const float max_len)
+    {
+        assert(max_len > 0);
+
+        const float current_len = length();
+        if (current_len > max_len)
+        {
+            *this *= (max_len / current_len);
+        }
+
+        return *this;
+    }
+};
