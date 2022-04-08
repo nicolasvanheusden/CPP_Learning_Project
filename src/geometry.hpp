@@ -161,17 +161,36 @@ template <int dimension, typename type> struct Point
 {
 
     Point() {}
-    Point(type x, type y) : values { x, y } {}
-    Point(type x, type y, type z) : values { x, y, z } {}
+    Point(type x, type y) : values { x, y } { static_assert(dimension == 2, "This is a 2 dimension point."); }
+    Point(type x, type y, type z) : values { x, y, z }
+    {
+        static_assert(dimension == 3, "This a 3 dimension point.");
+    }
 
     type& x() { return values.at(0); }
     type x() const { return values.at(0); }
 
-    type& y() { return values.at(1); }
-    type y() const { return values.at(1); }
+    type& y()
+    {
+        static_assert(dimension > 1, "Y is in dimension 2 and above.");
+        return values.at(1);
+    }
+    type y() const
+    {
+        static_assert(dimension > 1, "Y is in dimension 2 and above.");
+        return values.at(1);
+    }
 
-    type& z() { return values.at(2); }
-    type z() const { return values.at(2); }
+    type& z()
+    {
+        static_assert(dimension > 2, "Z is in dimension 3 and above.");
+        return values.at(2);
+    }
+    type z() const
+    {
+        static_assert(dimension > 1, "Z is in dimension 3 and above.");
+        return values.at(2);
+    }
 
     std::array<type, dimension> values = {};
 

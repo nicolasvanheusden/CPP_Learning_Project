@@ -63,12 +63,14 @@ Vérifiez que votre programme compile et fonctionne comme avant.
 Que se passe-t-il ?
 Comment pourriez-vous expliquer que cette erreur ne se produise que maintenant ?
 
-Le programme ne compile pas car point 2D a une dimension de 2 et donc n'attend que 2 paramètres.
-Cette erreur ne se produit que maintenant car avant on ne la faisait pas x).
+-- Le programme ne compile pas car point 2D a une dimension de 2 et donc n'attend que 2 paramètres.
+-- Cette erreur ne se produit que maintenant car avant on ne la faisait pas. x)
 
 5. Que se passe-t-il maintenant si vous essayez d'instancier un `Point3D` avec 2 arguments ?
 Utilisez un `static_assert` afin de vous assurez que personne ne puisse initialiser un `Point3D` avec seulement deux éléments.
 Faites en de même dans les fonctions `y()` et `z()`, pour vérifier que l'on ne puisse pas les appeler sur des `Point` qui n'ont pas la dimension minimale requise.
+
+-- le programme compile.
 
 6. Plutôt qu'avoir un constructeur pour chaque cas possible (d'ailleurs, vous n'avez pas traité tous les cas possibles, juste 2D et 3D), vous allez utiliser un variadic-template et du perfect-forwarding pour transférer n'importe quel nombre d'arguments de n'importe quel type directement au constructeur de `values`.  
 Vous conserverez bien entendu le `static_assert` pour vérifier que le nombre d'arguments passés correspond bien à la dimension du `Point`.\

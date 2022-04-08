@@ -20,7 +20,10 @@ void test_generic_points()
     p7 += p9;
     p7 *= 3.0;
 
-    Point<2, int> p10 = { 1, 4, 5 };
+    // Point<2, int> p10 = { 1, 4, 5 }; fail
+    // Point<3, int> p11 = { 1, 4 }; fail
+    Point2D p12 = { 1, 2 };
+    // p12.z(); fail
 }
 
 int main(void)
