@@ -21,15 +21,15 @@ void test_generic_points()
     p7 *= 3.0;
 }
 
-int main(void)
-{
-    test_generic_points();
-}
-
-// int main(int argc, char** argv)
+// int main(void)
 // {
-//     TowerSimulation simulation { argc, argv };
-//     simulation.launch();
-
-//     return 0;
+//     test_generic_points();
 // }
+
+int main(int argc, char** argv)
+{
+    TowerSimulation simulation { argc, argv };
+    simulation.launch();
+
+    return 0;
+}
